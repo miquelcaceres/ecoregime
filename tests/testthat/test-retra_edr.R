@@ -34,7 +34,7 @@ test_that("returns same results for dSegs and coordSegs", {
   states <- EDR_data$EDR1$abundance$state
 
   # Segment dissimilarity
-  dSegs <- ecotraj::segmentDistances(d = d, sites = trajectories, surveys = states)
+  dSegs <- ecotraj::segmentDistances(ecotraj::defineTrajectories(d = d, sites = trajectories, surveys = states))
   dSegs <- dSegs$Dseg
   seg_components <- strsplit(gsub("\\]", "", gsub("\\[", "-", labels(dSegs))), "-")
   traj_Segs <- vapply(seg_components, function(iseg){
@@ -121,7 +121,7 @@ test_that("returns errors", {
   nSegs <- sum(table(trajectories) - 1)
 
   # Segment dissimilarity
-  dSegs <- ecotraj::segmentDistances(d = d, sites = trajectories, surveys = states)
+  dSegs <- ecotraj::segmentDistances(ecotraj::defineTrajectories(d = d, sites = trajectories, surveys = states))
   dSegs <- as.matrix(dSegs$Dseg)
   seg_components <- strsplit(gsub("\\]", "", gsub("\\[", "-", labels(dSegs)[[1]])), "-")
   traj_Segs <- vapply(seg_components, function(iseg){

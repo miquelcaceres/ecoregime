@@ -130,8 +130,9 @@
 #'                 }, character(1))
 #'
 #' # Calculate dissimilarities between every pair of trajectories
-#' dTraj <- ecotraj::trajectoryDistances(d = dStates, sites = id_traj,
-#'                                       surveys = id_state,
+#' traj <- ecotraj::defineTrajectories(d = dStates, sites = id_traj,
+#'                                       surveys = id_state)
+#' dTraj <- ecotraj::trajectoryDistances(traj,
 #'                                       distance.type = "DSPD")
 #'
 #' # Use labels in dTraj to identify EDRs
@@ -195,10 +196,10 @@ dist_edr <- function(d, d.type, trajectories = NULL, states = NULL, edr, metric 
 
   # Trajectory dissimilarity
   if(d.type == "dStates"){
-    dTrajmat <- as.matrix(ecotraj::trajectoryDistances(d = d,
-                                                       sites = paste0(edr, "_", trajectories),
-                                                       surveys = states,...))
-    edr.df <- unique(data.frame(traj = paste0(edr, "_", trajectories), edr = edr))
+    dTrajmat <- as.matrix(ecotraj::trajectoryDistances(ecotraj::defineTrajectories(d = d,
+                                                                                   sites = paste0(edr, "_", trajectories),
+                                                                                   surveys = states),...))
+                          edr.df <- unique(data.frame(traj = paste0(edr, "_", trajectories), edr = edr))
     edr <- edr.df$edr
   }
   if(d.type == "dTraj") {

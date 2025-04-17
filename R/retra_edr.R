@@ -137,9 +137,10 @@
 #' # Identify representative trajectories from segment dissimilarities
 #'
 #' # Calculate segment dissimilarities using the Hausdorff distance
-#' dSegs <- ecotraj::segmentDistances(d = d, sites = trajectories,
-#'                                     surveys = states,
-#'                                     distance.type = "Hausdorff")
+#' traj <- ecotraj::defineTrajectories(d = d, sites = trajectories,
+#'                                     surveys = states)
+#' dSegs <- ecotraj::segmentDistances(traj,
+#'                                    distance.type = "Hausdorff")
 #' dSegs <- dSegs$Dseg
 #'
 #' # Identify the trajectory (or site) and states in dSegs:
@@ -265,7 +266,7 @@ retra_edr <- function (d, trajectories, states, minSegs,
 
   # Calculate segment distances
   if (all(is.null(dSegs), is.null(coordSegs))){
-    dSegs <- ecotraj::segmentDistances(d = d, sites = trajectories, surveys = states)
+    dSegs <- ecotraj::segmentDistances(ecotraj::defineTrajectories(d = d, sites = trajectories, surveys = states))
     dSegs <- dSegs$Dseg
   }
 
@@ -449,7 +450,7 @@ retra_edr <- function (d, trajectories, states, minSegs,
     d_medoids <- d[idst, idst]
 
     # Calculate segment dissimilarities for the medoids
-    dSegs_medoids <- ecotraj::segmentDistances(d = d_medoids, sites = trajectories[idst], surveys = states[idst])
+    dSegs_medoids <- ecotraj::segmentDistances(ecotraj::defineTrajectories(d = d_medoids, sites = trajectories[idst], surveys = states[idst]))
     dSegs_medoids <- as.matrix(dSegs_medoids$Dinifin)[medoids_nms, medoids_nms]
 
     # Identify the minimum distance between initial and final segment states
